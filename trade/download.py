@@ -4,6 +4,7 @@ import settings as s
 from datetime import datetime, timedelta
 from ccxt.base.errors import RequestTimeout, BadSymbol
 import time
+import pytz
 
 binance = ccxt.binance()
 
@@ -15,7 +16,9 @@ def to_timestamp(dt):
 def download_from_binance(symbols: list) -> pd.DataFrame:
     """Download the data from binance for one symbol for the last 10 minutes"""
     records = []
-    five_mins_ago = (datetime.now() - timedelta(minutes=5)).strftime("%Y-%m-%d %H:%M")
+    five_mins_ago = (
+        datetime.now(pytz.timezone("Etc/GMT")) - timedelta(minutes=10)
+    ).strftime("%Y-%m-%d %H:%M")
     since = to_timestamp(datetime.strptime(five_mins_ago, "%Y-%m-%d %H:%M"))
     symbols = symbols[2:3]
     for symbol in symbols:
