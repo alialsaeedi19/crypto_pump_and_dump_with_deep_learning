@@ -96,7 +96,7 @@ def get_data(path, *,
     assert os.path.exists(path)
 
     cached_data_path = f'{path}_{segment_length}.npy'
-    if not os.path.exists(cached_data_path):
+    if os.path.exists(cached_data_path):
         data = process_data(load_data(path), segment_length=segment_length)
         if save:
             np.save(cached_data_path, data)
